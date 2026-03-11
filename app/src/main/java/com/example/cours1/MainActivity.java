@@ -1,24 +1,32 @@
 package com.example.cours1;
 
+import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        setContentView(R.layout.activity_main); // Recup la page activity_main
+        Button monBouton = findViewById(R.id.buttonSignup); // cherche un button a l'id = buttonSignup
+
+        //Le listener pour ecouter si le bouton est cliqué
+        monBouton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            /**
+             * envoie le message Hello dans le terminal
+             * quand btn cliquer
+             */
+            public void onClick(View v) {
+                monBouton.setBackgroundColor(Color.BLUE);
+                Log.d("TEST","Hello");// envoie message log
+                System.out.println("Hell nah bro");// envoie message console
+            }
         });
     }
 }

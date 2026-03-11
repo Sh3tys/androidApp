@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Cours1</string>
     <string name="welcome">Welcome</string>
+    <string name="name_input">Pseudo</string>
+    <string name="email_input">Email</string>
+    <string name="password_input">Mot de Passe</string>
+    <string name="confirmation_pwd_input">Confirmation</string>
+    <string name="btn_signup">Sign up</string>
+    <string name="text_field_under_btn">Already have an account ? Log In</string>
+    <string name="desc_img">Logo school</string>
+    <string name="fond_app">BackgroundApp</string>
 </resources>
