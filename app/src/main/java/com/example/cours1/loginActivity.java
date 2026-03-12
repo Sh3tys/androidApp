@@ -15,6 +15,11 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.loginactivity);
+
+        String nom = getIntent().getStringExtra("nom");
+        String email = getIntent().getStringExtra("email");
+        String pwd = getIntent().getStringExtra("pwd");
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

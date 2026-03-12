@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intentToLoginActivity =  new Intent(this, loginActivity.class);
         intentToLoginActivity.putExtra("name", inputName.getText().toString());
-        intentToLoginActivity.putExtra("name", inputEmail.getText().toString());
-        intentToLoginActivity.putExtra("name", inputPassword.getText().toString());
+        intentToLoginActivity.putExtra("email", inputEmail.getText().toString());
+        intentToLoginActivity.putExtra("pwd", inputPassword.getText().toString());
         startActivity(intentToLoginActivity);
     }
 
