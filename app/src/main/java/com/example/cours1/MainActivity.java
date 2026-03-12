@@ -1,5 +1,6 @@
 package com.example.cours1;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +23,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();
 
         buttonSignup.setOnClickListener(v -> {
-            if (isFormValid()) {
                 performSignup();
-            }
         });
     }
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSignup = findViewById(R.id.buttonSignup);
     }
 
-    private boolean isFormValid() {
+    private void isFormValid() {
         String name = inputName.getText().toString().trim();
         String email = inputEmail.getText().toString().trim();
         String pwd = inputPassword.getText().toString();
@@ -45,25 +44,25 @@ public class MainActivity extends AppCompatActivity {
         // On vérifie chaque condition une par une pour un feedback précis
         if (name.isEmpty()) {
             showError(inputName, "Le nom est requis");
-            return false;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             showError(inputEmail, "Email invalide");
-            return false;
         }
 
         if (pwd.length() < 8) {
             showError(inputPassword, "Minimum 8 caractères requis");
-            return false;
         }
 
         if (!pwd.equals(confirmPwd)) {
             showError(inputConfirmPassword, "Les mots de passe ne correspondent pas");
-            return false;
         }
 
-        return true;
+        Intent intentToLoginActivity =  new Intent(this, loginActivity.class);
+        intentToLoginActivity.putExtra("name", inputName.getText().toString());
+        intentToLoginActivity.putExtra("name", inputEmail.getText().toString());
+        intentToLoginActivity.putExtra("name", inputPassword.getText().toString());
+        startActivity(intentToLoginActivity);
     }
 
     /**
