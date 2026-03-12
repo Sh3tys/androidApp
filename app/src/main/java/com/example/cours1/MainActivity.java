@@ -2,10 +2,8 @@ package com.example.cours1;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils; // Utilitaire pratique pour vérifier les chaînes
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,57 +19,64 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Liaison des vues
+        initViews();
+
+        buttonSignup.setOnClickListener(v -> {
+            if (isFormValid()) {
+                performSignup();
+            }
+        });
+    }
+
+    private void initViews() {
         inputName = findViewById(R.id.editTextText);
         inputEmail = findViewById(R.id.editTextTextEmailAddress);
         inputPassword = findViewById(R.id.editTextTextPassword);
         inputConfirmPassword = findViewById(R.id.editTextTextPassword2);
         buttonSignup = findViewById(R.id.buttonSignup);
-
-        buttonSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // On appelle notre fonction de validation
-                if (formulaireEstValide()) {
-                    // Si valide, on change la couleur et on traite les données
-                    buttonSignup.setBackgroundColor(Color.BLUE);
-                    Toast.makeText(MainActivity.this, "Succès !", Toast.LENGTH_SHORT).show();
-                    Log.d("FORM", "Données prêtes à être envoyées");
-                }
-            }
-        });
     }
 
-    /**
-     * Fonction personnalisée pour valider les champs
-     * @return true si tous les champs sont remplis et corrects
-     */
-    private boolean formulaireEstValide() {
+    private boolean isFormValid() {
         String name = inputName.getText().toString().trim();
         String email = inputEmail.getText().toString().trim();
         String pwd = inputPassword.getText().toString();
         String confirmPwd = inputConfirmPassword.getText().toString();
 
-        // 1. Vérification si un champ est vide
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches() ||
-                TextUtils.isEmpty(pwd) || TextUtils.isEmpty(confirmPwd)) {
-
-            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+        // On vérifie chaque condition une par une pour un feedback précis
+        if (name.isEmpty()) {
+            showError(inputName, "Le nom est requis");
             return false;
         }
 
-        // 2. Vérification de la correspondance des mots de passe
-        if (!pwd.equals(confirmPwd)) {
-            Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show();
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            showError(inputEmail, "Email invalide");
             return false;
         }
 
-        // 3. (Optionnel) Vérification de la longueur du mot de passe
         if (pwd.length() < 8) {
-            inputPassword.setError("Minimum 8 caractères"); // Affiche une petite erreur sur le champ
+            showError(inputPassword, "Minimum 8 caractères requis");
             return false;
         }
 
-        return true; // Si on arrive ici, tout est bon !
+        if (!pwd.equals(confirmPwd)) {
+            showError(inputConfirmPassword, "Les mots de passe ne correspondent pas");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Centralise l'affichage des erreurs sur les champs
+     */
+    private void showError(EditText field, String message) {
+        field.setError(message);
+        field.requestFocus(); // Remet le curseur sur le champ en erreur
+    }
+
+    private void performSignup() {
+        buttonSignup.setBackgroundColor(Color.BLUE);
+        Toast.makeText(this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
+        Log.d("AUTH", "Tentative d'inscription pour : " + inputEmail.getText());
     }
 }
